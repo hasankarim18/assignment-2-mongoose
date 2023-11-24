@@ -1,7 +1,8 @@
 module.exports = {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "node":true
     },
     "extends": [
         "eslint:recommended",
@@ -11,7 +12,8 @@ module.exports = {
     "overrides": [
         {
             "env": {
-                "node": true
+                "node": true,
+                "commonjs":true
             },
             "files": [
                 ".eslintrc.{js,cjs}"
@@ -35,5 +37,8 @@ module.exports = {
         "prefer-const": "error",
         "no-console": "warn",
         "no-undef": "error"
-    }
+    },
+    "globals": {
+        "process": "readonly"
+      }
 }
