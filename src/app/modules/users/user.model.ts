@@ -16,7 +16,7 @@ const userSchema = new Schema<TUser>({
     lastName: { type: String },
   },
   age: { type: Number },
-  email: { type: String },
+  email: { type: String, unique: true },
   hobbies: { type: [String] },
   address: {
     street: { type: String },
