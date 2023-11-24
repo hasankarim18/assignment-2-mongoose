@@ -55,4 +55,13 @@ userSchema.statics.isUserExists = async function (id) {
   return existingUser
 }
 
+userSchema.statics.isDeleted = async function (id) {
+  const data = await User.findOne({ userId: id })
+  if (data?.isDeleted) {
+    return true
+  } else {
+    return false
+  }
+}
+
 export const User = model<TUser, UserModel>('User', userSchema)

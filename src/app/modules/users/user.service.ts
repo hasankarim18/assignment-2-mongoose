@@ -33,8 +33,22 @@ const getUser = async function (param: string) {
   }
 }
 
+const deleteUserFromDb = async (id: string) => {
+  if (await User.isUserExists(id)) {
+    if (await User.isDeleted(id)) {
+      throw new Error('User is already deleted!')
+    } else {
+      const result = await User.updateOne({ userId: id }, { isDeleted: true })
+      return result
+    }
+  } else {
+    throw new Error(`User not found.`)
+  }
+}
+
 export const userServices = {
   createUserIntoDb,
   getAllUserFromDb,
   getUser,
+  deleteUserFromDb,
 }

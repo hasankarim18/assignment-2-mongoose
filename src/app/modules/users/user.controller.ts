@@ -60,8 +60,31 @@ const getUser = async (req: Request, res: Response) => {
   }
 }
 
+// delete uer
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId
+    await userServices.deleteUserFromDb(userId)
+    res.send({
+      success: true,
+      message: 'Users deleted successfully!',
+      data: null,
+    })
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'User not found',
+      data: {
+        code: 404,
+        description: error,
+      },
+    })
+  }
+}
+
 export const userController = {
   createUser,
   getAllUser,
   getUser,
+  deleteUser,
 }
