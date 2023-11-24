@@ -23,7 +23,14 @@ const getAllUserFromDb = async function () {
   return result
 }
 
+// query to get single user
+const getUser = async function (param: string) {
+  const result = await User.findOne({ userId: param }).select('-password')
+  return result
+}
+
 export const userServices = {
   createUserIntoDb,
   getAllUserFromDb,
+  getUser,
 }
