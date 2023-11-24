@@ -51,8 +51,11 @@ const getUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.send({
       success: false,
-      message: 'Something went wrong!!!',
-      data: null,
+      message: 'User not found',
+      data: {
+        code: 404,
+        description: 'User not found!',
+      },
     })
   }
 }

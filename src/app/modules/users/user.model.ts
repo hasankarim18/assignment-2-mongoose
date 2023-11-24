@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { TOrder, TUser } from './user.interface'
+import { TOrder, TUser, UserModel } from './user.interface'
 import bcrypt from 'bcrypt'
 import config from '../../config'
 
@@ -9,7 +9,7 @@ const orderSchema = new Schema<TOrder>({
   quantity: { type: Number, required: true },
 })
 
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: { type: Number, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -49,4 +49,10 @@ userSchema.post('save', function (doc, next) {
   next()
 })
 
-export const User = model<TUser>('User', userSchema)
+// for creating static model
+userSchema.statics.isUserExists = async function (id) {
+  const existingUser = await User.findOne({ userId: id })
+  return existingUser
+}
+
+export const User = model<TUser, UserModel>('User', userSchema)

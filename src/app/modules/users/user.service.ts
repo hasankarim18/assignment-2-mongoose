@@ -25,8 +25,12 @@ const getAllUserFromDb = async function () {
 
 // query to get single user
 const getUser = async function (param: string) {
-  const result = await User.findOne({ userId: param }).select('-password')
-  return result
+  if (await User.isUserExists(param)) {
+    const result = await User.findOne({ userId: param }).select('-password')
+    return result
+  } else {
+    throw new Error(`User not found.`)
+  }
 }
 
 export const userServices = {
