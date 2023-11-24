@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { TOrder, TUser } from './user.interface'
+import bcrypt from 'bcrypt'
+import config from '../../config'
 
 const orderSchema = new Schema<TOrder>({
   productName: { type: String, required: true },
@@ -24,6 +26,27 @@ const userSchema = new Schema<TUser>({
     country: { type: String },
   },
   orders: { type: [orderSchema], default: undefined },
+  isDeleted: { type: Boolean },
 })
 
-export const Student = model<TUser>('User', userSchema)
+/** schema pre  */
+
+// hassing the password when saved
+userSchema.pre('save', async function () {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bycrpt_salt_rounds),
+  )
+  user.isDeleted = false
+})
+
+// doing post operation on save to delete the password
+userSchema.post('save', function (doc, next) {
+  doc.password = ''
+
+  next()
+})
+
+export const User = model<TUser>('User', userSchema)

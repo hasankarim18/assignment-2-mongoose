@@ -8,36 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const user_router_1 = require("./app/modules/users/user.router");
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
-const getHelloController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.userController = void 0;
+const user_service_1 = require("./user.service");
+const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.status(200).json({
+        const { userData } = req.body;
+        const result = yield user_service_1.userServices.createUserIntoDb(userData);
+        res.send({
             success: true,
-            message: 'Hello world',
+            message: 'User Created Successfully',
+            data: result,
         });
     }
     catch (error) {
-        res.status(400).json({
+        res.send({
             success: false,
-            message: 'Something went wrong!!!',
-            error: error,
+            message: 'User Created Unsuccessfull',
+            data: null,
         });
     }
 });
-app.use('/api/users', user_router_1.userRoutes);
-// app.post('/api/users', (req, res) => {
-//   res.send({
-//     message: 'success',
-//   })
-// })
-app.get('/', getHelloController);
-exports.default = app;
+exports.userController = {
+    createUser,
+};
