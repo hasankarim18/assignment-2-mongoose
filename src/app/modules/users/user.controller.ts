@@ -6,6 +6,8 @@ const createUser = async (req: Request, res: Response) => {
   try {
     const { userData } = req.body
     const result = await userServices.createUserIntoDb(userData)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (result as any).password
     res.send({
       success: true,
       message: 'User Created Successfully',
@@ -82,9 +84,37 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 }
 
+// #update user
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId
+    const { userData } = req.body
+
+    const result = await userServices.updateUserIntoDb(userId, userData)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (result as any).password
+    //  result.password = ''
+    res.send({
+      success: true,
+      message: 'Users updated successfully!',
+      data: result,
+    })
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'User not found',
+      data: {
+        code: 404,
+        description: error,
+      },
+    })
+  }
+}
+
 export const userController = {
   createUser,
   getAllUser,
   getUser,
   deleteUser,
+  updateUser,
 }

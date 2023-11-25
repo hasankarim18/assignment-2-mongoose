@@ -8,6 +8,7 @@ router.post('/', userController.createUser)
 router.get('/', userController.getAllUser)
 router.get('/:userId', userController.getUser)
 router.delete('/:userId', userController.deleteUser)
+router.put('/:userId', userController.updateUser)
 // router.get('/', (req, res) => {
 //   res.send({
 //     message: 'route',

@@ -11,10 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 const user_service_1 = require("./user.service");
+// controller for create a user
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userData } = req.body;
         const result = yield user_service_1.userServices.createUserIntoDb(userData);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delete result.password;
         res.send({
             success: true,
             message: 'User Created Successfully',
@@ -29,6 +32,98 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+// controller for get all user
+const getAllUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield user_service_1.userServices.getAllUserFromDb();
+        res.send({
+            success: true,
+            message: 'Users fetched successfully!',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.send({
+            success: false,
+            message: 'something went wrong!!!',
+            data: null,
+        });
+    }
+});
+// single user
+const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.userId;
+        const result = yield user_service_1.userServices.getUser(userId);
+        res.send({
+            success: true,
+            message: 'Users fetched successfully!',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.send({
+            success: false,
+            message: 'User not found',
+            data: {
+                code: 404,
+                description: 'User not found!',
+            },
+        });
+    }
+});
+// delete uer
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.userId;
+        yield user_service_1.userServices.deleteUserFromDb(userId);
+        res.send({
+            success: true,
+            message: 'Users deleted successfully!',
+            data: null,
+        });
+    }
+    catch (error) {
+        res.send({
+            success: false,
+            message: 'User not found',
+            data: {
+                code: 404,
+                description: error,
+            },
+        });
+    }
+});
+// #update user
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.userId;
+        const { userData } = req.body;
+        const result = yield user_service_1.userServices.updateUserIntoDb(userId, userData);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delete result.password;
+        //  result.password = ''
+        res.send({
+            success: true,
+            message: 'Users updated successfully!',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.send({
+            success: false,
+            message: 'User not found',
+            data: {
+                code: 404,
+                description: error,
+            },
+        });
+    }
+});
 exports.userController = {
     createUser,
+    getAllUser,
+    getUser,
+    deleteUser,
+    updateUser,
 };

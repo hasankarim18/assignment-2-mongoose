@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const user_router_1 = require("./app/modules/users/user.router");
+const user_route_1 = require("./app/modules/users/user.route");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
@@ -33,10 +33,10 @@ const getHelloController = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
 });
-app.use('/api/users', user_router_1.userRoutes);
-// app.post('/api/users', (req, res) => {
+app.use('/api/users', user_route_1.userRoutes);
+// app.get('/api/users', (req, res) => {
 //   res.send({
-//     message: 'success',
+//     message: 'get',
 //   })
 // })
 app.get('/', getHelloController);
