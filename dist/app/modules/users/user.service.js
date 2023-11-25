@@ -149,11 +149,10 @@ const createOrderIntoDb = (id, order) => __awaiter(void 0, void 0, void 0, funct
         if (user) {
             if (user.orders) {
                 // Add new order to the array of objects
-                // Assuming the request body contains the new order
                 user.orders.push(newOrder);
             }
             else {
-                // Initialize the array with a new object
+                // create new array of objects of orders
                 user.orders = [newOrder];
             }
             yield user.save();

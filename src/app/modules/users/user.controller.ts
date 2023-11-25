@@ -161,7 +161,7 @@ const getTotalPrice = async (req: Request, res: Response) => {
 
 // create order for user
 
-const creaeOrder = async (req: Request, res: Response) => {
+const createOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId
     const { order } = req.body
@@ -191,5 +191,5 @@ export const userController = {
   updateUser,
   getUserOrders,
   getTotalPrice,
-  creaeOrder,
+  creaeOrder: createOrder,
 }

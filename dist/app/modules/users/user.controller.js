@@ -169,7 +169,7 @@ const getTotalPrice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 // create order for user
-const creaeOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.params.userId;
         const { order } = req.body;
@@ -199,5 +199,5 @@ exports.userController = {
     updateUser,
     getUserOrders,
     getTotalPrice,
-    creaeOrder,
+    creaeOrder: createOrder,
 };

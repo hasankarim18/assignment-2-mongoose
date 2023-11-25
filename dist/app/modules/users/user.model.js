@@ -52,6 +52,7 @@ userSchema.pre('save', function () {
 });
 // doing post operation on save to delete the password
 userSchema.post('save', function (doc, next) {
+    // doc delete this.password
     doc.password = '';
     next();
 });

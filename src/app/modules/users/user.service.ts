@@ -134,15 +134,16 @@ const calculateTotalPrice = async (id: string) => {
 
 const createOrderIntoDb = async (id: string, order: TOrder) => {
   const newOrder = order
+
   if (await User.isUserValid(id)) {
     const user = await User.findOne({ userId: id })
     if (user) {
       if (user.orders) {
         // Add new order to the array of objects
-        // Assuming the request body contains the new order
+
         user.orders.push(newOrder)
       } else {
-        // Initialize the array with a new object
+        // create new array of objects of orders
         user.orders = [newOrder]
       }
       await user.save()
