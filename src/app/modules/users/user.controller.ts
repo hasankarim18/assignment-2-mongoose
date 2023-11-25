@@ -111,10 +111,35 @@ const updateUser = async (req: Request, res: Response) => {
   }
 }
 
+// get user orders
+const getUserOrders = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId
+    const result = await userServices.getOrderOfUsersFromDb(userId)
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: {
+        orders: result,
+      },
+    })
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'User not found',
+      data: {
+        code: 404,
+        description: error,
+      },
+    })
+  }
+}
+
 export const userController = {
   createUser,
   getAllUser,
   getUser,
   deleteUser,
   updateUser,
+  getUserOrders,
 }

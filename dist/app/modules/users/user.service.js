@@ -92,10 +92,33 @@ const updateUserIntoDb = (id, updatedDoc) => __awaiter(void 0, void 0, void 0, f
         throw new Error(`User not found.`);
     }
 });
+// get all orders from user
+const getOrderOfUsersFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findOne({ userId: id });
+    if (yield user_model_1.User.isUserExists(id)) {
+        if (yield user_model_1.User.isDeleted(id)) {
+            throw new Error('User does not exists');
+        }
+        else {
+            if (user) {
+                if (!user.orders || user.orders.length === 0) {
+                    return { message: 'No orders found for this user' };
+                }
+                else {
+                    return user.orders;
+                }
+            }
+        }
+    }
+    else {
+        throw new Error(`User not found.`);
+    }
+});
 exports.userServices = {
     createUserIntoDb,
     getAllUserFromDb,
     getUser,
     deleteUserFromDb,
     updateUserIntoDb,
+    getOrderOfUsersFromDb,
 };

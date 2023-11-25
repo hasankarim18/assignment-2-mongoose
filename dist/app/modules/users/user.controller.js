@@ -120,10 +120,35 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+// get user orders
+const getUserOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.userId;
+        const result = yield user_service_1.userServices.getOrderOfUsersFromDb(userId);
+        res.status(200).json({
+            success: true,
+            message: 'Order fetched successfully!',
+            data: {
+                orders: result,
+            },
+        });
+    }
+    catch (error) {
+        res.send({
+            success: false,
+            message: 'User not found',
+            data: {
+                code: 404,
+                description: error,
+            },
+        });
+    }
+});
 exports.userController = {
     createUser,
     getAllUser,
     getUser,
     deleteUser,
     updateUser,
+    getUserOrders,
 };

@@ -76,10 +76,33 @@ const updateUserIntoDb = async (id: string, updatedDoc: object) => {
   }
 }
 
+// get all orders from user
+
+const getOrderOfUsersFromDb = async (id: string) => {
+  const user = await User.findOne({ userId: id })
+
+  if (await User.isUserExists(id)) {
+    if (await User.isDeleted(id)) {
+      throw new Error('User does not exists')
+    } else {
+      if (user) {
+        if (!user.orders || user.orders.length === 0) {
+          return { message: 'No orders found for this user' }
+        } else {
+          return user.orders
+        }
+      }
+    }
+  } else {
+    throw new Error(`User not found.`)
+  }
+}
+
 export const userServices = {
   createUserIntoDb,
   getAllUserFromDb,
   getUser,
   deleteUserFromDb,
   updateUserIntoDb,
+  getOrderOfUsersFromDb,
 }
