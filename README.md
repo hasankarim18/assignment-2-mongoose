@@ -6,7 +6,6 @@
 - End Point: POST,  /api/users 
 ```
 https://assignment-2-mongoose.vercel.app/api/users
-
 ```
 
 
