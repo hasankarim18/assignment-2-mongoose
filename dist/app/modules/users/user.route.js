@@ -14,6 +14,8 @@ router.get('/:userId', user_controller_1.userController.getUser);
 router.delete('/:userId', user_controller_1.userController.deleteUser);
 router.put('/:userId', user_controller_1.userController.updateUser);
 router.get('/:userId/orders', user_controller_1.userController.getUserOrders);
+router.get('/:userId/orders/total-price', user_controller_1.userController.getTotalPrice);
+router.put('/:userId/orders/', user_controller_1.userController.creaeOrder);
 // router.get('/', (req, res) => {
 //   res.send({
 //     message: 'route',

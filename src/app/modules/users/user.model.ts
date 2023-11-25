@@ -64,4 +64,18 @@ userSchema.statics.isDeleted = async function (id) {
   }
 }
 
+userSchema.statics.isUserValid = async id => {
+  const user = await User.findOne({ userId: id })
+
+  if (user) {
+    if (!user.isDeleted) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+}
+
 export const User = model<TUser, UserModel>('User', userSchema)

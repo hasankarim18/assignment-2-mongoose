@@ -1,5 +1,5 @@
 import config from '../../config'
-import { TUser } from './user.interface'
+import { TOrder, TUser } from './user.interface'
 import { User } from './user.model'
 import bcrypt from 'bcrypt'
 
@@ -98,6 +98,62 @@ const getOrderOfUsersFromDb = async (id: string) => {
   }
 }
 
+//calculate total price
+
+const calculateTotalPrice = async (id: string) => {
+  const user = await User.findOne({ userId: id })
+
+  function calculateTotalPrice(orderArray: TOrder[]): number {
+    return orderArray.reduce(
+      (total, order) => total + order.price * order.quantity,
+      0,
+    )
+  }
+
+  if (await User.isUserExists(id)) {
+    if (await User.isDeleted(id)) {
+      throw new Error('User does not exists')
+    } else {
+      if (user) {
+        if (!user.orders || user.orders.length === 0) {
+          return { message: 'No orders found for this user' }
+        } else {
+          const orders = user.orders
+          const total = calculateTotalPrice(orders)
+
+          return total
+        }
+      }
+    }
+  } else {
+    throw new Error(`User not found.`)
+  }
+}
+
+// create order
+
+const createOrderIntoDb = async (id: string, order: TOrder) => {
+  const newOrder = order
+  if (await User.isUserValid(id)) {
+    const user = await User.findOne({ userId: id })
+    if (user) {
+      if (user.orders) {
+        // Add new order to the array of objects
+        // Assuming the request body contains the new order
+        user.orders.push(newOrder)
+      } else {
+        // Initialize the array with a new object
+        user.orders = [newOrder]
+      }
+      await user.save()
+      return true
+    }
+    // Save the updated user document
+  } else {
+    throw new Error('User Not Found.')
+  }
+}
+
 export const userServices = {
   createUserIntoDb,
   getAllUserFromDb,
@@ -105,4 +161,6 @@ export const userServices = {
   deleteUserFromDb,
   updateUserIntoDb,
   getOrderOfUsersFromDb,
+  calculateTotalPrice,
+  createOrderIntoDb,
 }

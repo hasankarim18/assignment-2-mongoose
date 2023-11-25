@@ -114,6 +114,57 @@ const getOrderOfUsersFromDb = (id) => __awaiter(void 0, void 0, void 0, function
         throw new Error(`User not found.`);
     }
 });
+//calculate total price
+const calculateTotalPrice = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.User.findOne({ userId: id });
+    function calculateTotalPrice(orderArray) {
+        return orderArray.reduce((total, order) => total + order.price * order.quantity, 0);
+    }
+    if (yield user_model_1.User.isUserExists(id)) {
+        if (yield user_model_1.User.isDeleted(id)) {
+            throw new Error('User does not exists');
+        }
+        else {
+            if (user) {
+                if (!user.orders || user.orders.length === 0) {
+                    return { message: 'No orders found for this user' };
+                }
+                else {
+                    const orders = user.orders;
+                    const total = calculateTotalPrice(orders);
+                    return total;
+                }
+            }
+        }
+    }
+    else {
+        throw new Error(`User not found.`);
+    }
+});
+// create order
+const createOrderIntoDb = (id, order) => __awaiter(void 0, void 0, void 0, function* () {
+    const newOrder = order;
+    if (yield user_model_1.User.isUserValid(id)) {
+        const user = yield user_model_1.User.findOne({ userId: id });
+        if (user) {
+            if (user.orders) {
+                // Add new order to the array of objects
+                // Assuming the request body contains the new order
+                user.orders.push(newOrder);
+            }
+            else {
+                // Initialize the array with a new object
+                user.orders = [newOrder];
+            }
+            yield user.save();
+            return true;
+        }
+        // Save the updated user document
+    }
+    else {
+        throw new Error('User Not Found.');
+    }
+});
 exports.userServices = {
     createUserIntoDb,
     getAllUserFromDb,
@@ -121,4 +172,6 @@ exports.userServices = {
     deleteUserFromDb,
     updateUserIntoDb,
     getOrderOfUsersFromDb,
+    calculateTotalPrice,
+    createOrderIntoDb,
 };

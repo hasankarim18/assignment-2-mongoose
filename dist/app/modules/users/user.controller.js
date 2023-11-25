@@ -144,6 +144,53 @@ const getUserOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+// get total price
+const getTotalPrice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.userId;
+        const totalPrice = yield user_service_1.userServices.calculateTotalPrice(userId);
+        res.status(200).json({
+            success: true,
+            message: 'Total price calculated successfully.',
+            data: {
+                totalPrice: totalPrice,
+            },
+        });
+    }
+    catch (error) {
+        res.send({
+            success: false,
+            message: 'User not found',
+            data: {
+                code: 404,
+                description: error,
+            },
+        });
+    }
+});
+// create order for user
+const creaeOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.userId;
+        const { order } = req.body;
+        yield user_service_1.userServices.createOrderIntoDb(userId, order);
+        res.status(200).json({
+            success: true,
+            message: 'Order created successfully!',
+            data: null,
+        });
+    }
+    catch (error) {
+        res.send({
+            success: false,
+            message: 'Order not created.',
+            data: {
+                code: 404,
+                description: error,
+            },
+        });
+    }
+});
 exports.userController = {
     createUser,
     getAllUser,
@@ -151,4 +198,6 @@ exports.userController = {
     deleteUser,
     updateUser,
     getUserOrders,
+    getTotalPrice,
+    creaeOrder,
 };

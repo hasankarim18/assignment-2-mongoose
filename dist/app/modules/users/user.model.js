@@ -73,4 +73,18 @@ userSchema.statics.isDeleted = function (id) {
         }
     });
 };
+userSchema.statics.isUserValid = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield exports.User.findOne({ userId: id });
+    if (user) {
+        if (!user.isDeleted) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        return false;
+    }
+});
 exports.User = (0, mongoose_1.model)('User', userSchema);

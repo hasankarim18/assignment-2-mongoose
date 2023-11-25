@@ -135,6 +135,54 @@ const getUserOrders = async (req: Request, res: Response) => {
   }
 }
 
+// get total price
+const getTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId
+    const totalPrice = await userServices.calculateTotalPrice(userId)
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully.',
+      data: {
+        totalPrice: totalPrice,
+      },
+    })
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'User not found',
+      data: {
+        code: 404,
+        description: error,
+      },
+    })
+  }
+}
+
+// create order for user
+
+const creaeOrder = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId
+    const { order } = req.body
+    await userServices.createOrderIntoDb(userId, order)
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: null,
+    })
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'Order not created.',
+      data: {
+        code: 404,
+        description: error,
+      },
+    })
+  }
+}
+
 export const userController = {
   createUser,
   getAllUser,
@@ -142,4 +190,6 @@ export const userController = {
   deleteUser,
   updateUser,
   getUserOrders,
+  getTotalPrice,
+  creaeOrder,
 }

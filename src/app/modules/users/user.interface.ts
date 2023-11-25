@@ -32,4 +32,6 @@ export interface UserModel extends Model<TUser> {
   isUserExists(id: string): Promise<TUser | null>
   // eslint-disable-next-line no-unused-vars
   isDeleted(id: string): Promise<TUser | null>
+  // eslint-disable-next-line no-unused-vars
+  isUserValid(id: string): Promise<TUser | null>
 }
