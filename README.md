@@ -4,7 +4,10 @@
 # Section 1 
 ## User Management 
 - End Point: POST,  /api/users 
-```https://assignment-2-mongoose.vercel.app/api/users```
+```
+https://assignment-2-mongoose.vercel.app/api/users
+
+```
 
 
 ```
