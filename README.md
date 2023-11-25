@@ -12,7 +12,7 @@ PORT=5000
 BCRYPT_SALT_ROUNDS=12
 ```
 
-
+##### [Live host](https://assignment-2-mongoose.vercel.app/): https://assignment-2-mongoose.vercel.app/
 
 # Section 1 
 ## User Management 
