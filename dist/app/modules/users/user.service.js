@@ -144,7 +144,9 @@ const calculateTotalPrice = (id) => __awaiter(void 0, void 0, void 0, function* 
 // create order
 const createOrderIntoDb = (id, order) => __awaiter(void 0, void 0, void 0, function* () {
     const newOrder = order;
-    if (yield user_model_1.User.isUserValid(id)) {
+    //console.log({ user })
+    // console.log({ newOrder })
+    if (yield user_model_1.User.findOne({ userId: id })) {
         const user = yield user_model_1.User.findOne({ userId: id });
         if (user) {
             if (user.orders) {
@@ -161,6 +163,7 @@ const createOrderIntoDb = (id, order) => __awaiter(void 0, void 0, void 0, funct
         // Save the updated user document
     }
     else {
+        // console.log('user not found')
         throw new Error('User Not Found.');
     }
 });

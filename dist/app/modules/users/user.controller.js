@@ -98,7 +98,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.params.userId;
-        const { userData } = req.body;
+        const userData = req.body;
         const result = yield user_service_1.userServices.updateUserIntoDb(userId, userData);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete result.password;
@@ -172,7 +172,7 @@ const getTotalPrice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.params.userId;
-        const { order } = req.body;
+        const order = req.body;
         yield user_service_1.userServices.createOrderIntoDb(userId, order);
         res.status(200).json({
             success: true,
@@ -183,7 +183,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         res.send({
             success: false,
-            message: 'Order not created.',
+            message: 'Order not created!!!!',
             data: {
                 code: 404,
                 description: error,

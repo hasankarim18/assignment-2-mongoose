@@ -135,8 +135,12 @@ const calculateTotalPrice = async (id: string) => {
 const createOrderIntoDb = async (id: string, order: TOrder) => {
   const newOrder = order
 
-  if (await User.isUserValid(id)) {
+  //console.log({ user })
+  // console.log({ newOrder })
+
+  if (await User.findOne({ userId: id })) {
     const user = await User.findOne({ userId: id })
+
     if (user) {
       if (user.orders) {
         // Add new order to the array of objects
@@ -151,6 +155,7 @@ const createOrderIntoDb = async (id: string, order: TOrder) => {
     }
     // Save the updated user document
   } else {
+    // console.log('user not found')
     throw new Error('User Not Found.')
   }
 }

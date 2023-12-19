@@ -88,7 +88,7 @@ const deleteUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId
-    const { userData } = req.body
+    const userData = req.body
 
     const result = await userServices.updateUserIntoDb(userId, userData)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -164,7 +164,8 @@ const getTotalPrice = async (req: Request, res: Response) => {
 const createOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId
-    const { order } = req.body
+    const order = req.body
+
     await userServices.createOrderIntoDb(userId, order)
     res.status(200).json({
       success: true,
@@ -174,7 +175,7 @@ const createOrder = async (req: Request, res: Response) => {
   } catch (error) {
     res.send({
       success: false,
-      message: 'Order not created.',
+      message: 'Order not created!!!!',
       data: {
         code: 404,
         description: error,
