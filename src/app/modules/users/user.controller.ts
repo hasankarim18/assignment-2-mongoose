@@ -4,7 +4,7 @@ import { userServices } from './user.service'
 // controller for create a user
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { userData } = req.body
+    const userData = req.body
     const result = await userServices.createUserIntoDb(userData)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (result as any).password

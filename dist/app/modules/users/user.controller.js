@@ -14,7 +14,7 @@ const user_service_1 = require("./user.service");
 // controller for create a user
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userData } = req.body;
+        const userData = req.body;
         const result = yield user_service_1.userServices.createUserIntoDb(userData);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete result.password;
